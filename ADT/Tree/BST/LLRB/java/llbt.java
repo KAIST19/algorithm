@@ -1,6 +1,6 @@
-package lldb_java;
+package java;
 
-public class lldb_java {
+public class llbt {
 	public static void main(String args[]) {
 		String test = "S E A R C H E X A M P L E"; 
         String[] keys = test.split(" "); 
@@ -95,17 +95,13 @@ class RedBlackBST<Key extends Comparable<Key>, Value> {
         return h;
     }
 
-   /***************************************************************************
-    *  Red-black tree helper functions.
-    ***************************************************************************/
+    // helper functions
 
-    // is node x red (and non-null) ?
     private boolean isRed(Node x) {
         if (x == null) return false;
         return x.color == RED;
     }
 
-    // rotate right
     private Node rotateRight(Node h) {
         
         Node x = h.left;
@@ -116,7 +112,6 @@ class RedBlackBST<Key extends Comparable<Key>, Value> {
         return x;
     }
 
-    // rotate left
     private Node rotateLeft(Node h) {
         
         Node x = h.right;
@@ -137,25 +132,19 @@ class RedBlackBST<Key extends Comparable<Key>, Value> {
     }
 
 
-   /***************************************************************************
-    *  Utility functions.
-    ***************************************************************************/
-    // return number of key-value pairs in symbol table
+    // utility functions
+
     public int size() {
         return n;
     }
 
-    // is the symbol table empty?
     public boolean isEmpty() {
         return n == 0;
     }
 
-    // height of tree (1-node tree has height 0)
     public int height() { return height(root); }
     private int height(Node x) {
         if (x == null) return -1;
         return 1 + Math.max(height(x.left), height(x.right));
     }
-    
-   
 }
