@@ -1,5 +1,6 @@
 {
     "java.project.sourcePaths": [
-        "ADT_java"
+        "ADT_java",
+        "Sort"
     ]
 }
