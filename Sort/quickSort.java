@@ -11,6 +11,8 @@ public class quickSort {
 		for (int i = 0; i < n; i++) {
 			arr[i] = sc.nextInt();
 		}
+		sc.close();
+
 		Quick.sort(arr);
 
 		for (int i = 0; i < n; i++) {
