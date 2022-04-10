@@ -1,0 +1,19 @@
+'''
+The Floyd–Warshall finds the shortest paths in a directed weighted graph with positive or negative edge weights (but with no negative cycles).
+'''
+def floyd_warshall(n, d):
+    '''
+    n: # of vertices
+    d: adjacency matrix
+        - elements are costs.
+        - diagonal = zeros
+        - if connected, elements are costs. if not, elements are +inf
+        - negative cycles not allowed
+    '''
+
+    for k in range(n):
+        for a in range(n):
+            for b in range(n):
+                d[a][b] = min(d[a][b], d[a][k] + d[k][b])
+    
+    return d

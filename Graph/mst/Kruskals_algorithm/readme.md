@@ -1,1 +1,0 @@
-**Kruskal's algorithm** finds a **[minimum spanning forest](https://en.wikipedia.org/wiki/Minimum_spanning_tree "Minimum spanning tree") of an undirected** [edge-weighted graph](https://en.wikipedia.org/wiki/Weighted_graph "Weighted graph").
