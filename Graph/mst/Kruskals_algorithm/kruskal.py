@@ -1,14 +1,16 @@
-'''
-Kruskal's algorithm finds a minimum spanning forest of an undirected edge-weighted graph.
-'''
-
-
+"""
+Kruskal's algorithm finds the minimum spanning forest of an UNDIRECTED edge-weighted graph.
+"""
 def kruskal(v, e, queue):
-    '''
-    v: # of vertex.
-    e: # of edges.
-    queue: a list consisting of (a, b, queue), 1 <= a, b <= v.
-    '''
+    """
+    v: int
+        1) number of vertices
+    e: int
+        1) number of edges
+    queue: list
+        1) a list consisting of (a, b, queue)
+        2) 1 <= a, b <= v
+    """
 
     def find_root(node):
         while node != parent[node]:

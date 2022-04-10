@@ -1,11 +1,11 @@
-'''
+"""
 Dijkstra's algorithm is an algorithm for finding the shortest paths between nodes in a graph, which may represent, for example, road networks.
-'''
+"""
 import heapq
 
 
 def dijkstra(v, e, start, graph):
-    '''
+    """
     v: int
         1) number of vertices
     e: int
@@ -21,7 +21,7 @@ def dijkstra(v, e, start, graph):
     minimum: list
         1) minimum[i] is the minimum distance from the start point to vertex i (i = 1, ..., v)
         2) minimum[i] = float('inf') if there is no path from the start point to vertex i
-    '''
+    """
 
     minimum = [float('inf')] * (v + 1)
     minimum[start] = 0
