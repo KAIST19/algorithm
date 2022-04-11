@@ -1,5 +1,5 @@
 """
-merge sort is an efficient, general-purpose, and comparison-based sorting algorithm.
+Efficient, general-purpose, and comparison-based sorting algorithm.
 
 This sort is STABLE.
 
@@ -44,6 +44,6 @@ def merge_sort(arr):
 
 
 # Test
-arr = [5, 2, 4, 6, 1, 3]
+arr = [4, 2, 3, 1]
 merge_sort(arr)
 print(arr)  
