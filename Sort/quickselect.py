@@ -33,8 +33,8 @@ def quickselect(arr, k):
     return select(arr, 0, len(arr) - 1, k)
     
 
-# Test
-# arr = [1, 3, 2]
-# print(sorted(arr))
-# for i in range(len(arr)):
-#     print(quickselect(arr, i), end=' ')
+Test
+arr = [1, 3, 2]
+print(sorted(arr))
+for i in range(len(arr)):
+    print(quickselect(arr, i), end=' ')
