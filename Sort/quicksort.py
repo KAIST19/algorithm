@@ -1,5 +1,12 @@
 """
 Quicksort is an in-place sorting algorithm.
+
+This sort is NOT STABLE.
+
+Time complexity:
+Best: Omega(n^2)
+Average: Theta(n log n)
+Worst: O(n log n)
 """
 def quicksort(arr):
     """
@@ -26,6 +33,6 @@ def quicksort(arr):
     sort(0, len(arr) - 1)
 
 # Test
-arr = [5, 2, 4, 6, 1, 3]
-quicksort(arr)
-print(arr)  
+# arr = [5, 2, 4, 6, 1, 3]
+# quicksort(arr)
+# print(arr)  

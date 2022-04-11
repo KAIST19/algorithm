@@ -9,7 +9,8 @@ def kruskal(v, e, queue):
         1) number of edges
     queue: list
         1) a list consisting of (a, b, queue)
-        2) 1 <= a, b <= v
+        2) (a, b, queue) means the vertices a and b are connected 
+        3) 1 <= a, b <= v
     """
 
     def find_root(node):

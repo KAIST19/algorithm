@@ -1,5 +1,7 @@
 """
 Quicksort is an in-place sorting algorithm.
+
+This sort is NOT STABLE.
 """
 def quickselect(arr, k):
     """
