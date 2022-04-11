@@ -9,10 +9,10 @@ def quickselect(arr, k):
         2) 0 <= i < len(arr)
     """
     def partition(arr, left, right):
-        x = arr[right]
+        pivot = arr[right]
         i = left - 1
         for j in range(left, right):
-            if arr[j] <= x:
+            if arr[j] <= pivot:
                 i += 1
                 arr[i], arr[j] = arr[j], arr[i]
         arr[i+1], arr[right] = arr[right], arr[i+1]
@@ -32,7 +32,7 @@ def quickselect(arr, k):
     
 
 # Test
-# arr = [6, 10, 13, 5, 8, 3, 2, 11]
+# arr = [1, 3, 2]
 # print(sorted(arr))
 # for i in range(len(arr)):
 #     print(quickselect(arr, i), end=' ')
