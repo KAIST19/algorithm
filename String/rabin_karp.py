@@ -31,9 +31,4 @@ def Rabin_Karp(s, p):
 
 
 # Test
-s = input().rstrip()
-p = input().rstrip()
-ret = Rabin_Karp(s, p)
-print(len(ret))
-for i in ret:
-    print(i + 1, end=" ")
+print(Rabin_Karp("Hello, my name is Hello", "Hello"))

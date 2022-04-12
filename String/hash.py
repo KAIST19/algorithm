@@ -1,5 +1,5 @@
 def hash(s):
-    p = 53
+    p = 53 # small + large case (31 for small only)
     m = 1e9 + 9
     
     ret = 0
