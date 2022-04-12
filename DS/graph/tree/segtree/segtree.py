@@ -44,11 +44,11 @@ def partial_sum(tree, i, j, n):
 
 
 # Test
-# arr = [1, 2, 3, 4, 5]
-# segtree = segtree(arr)
-# print(segtree)
+arr = [1, 2, 3, 4, 5]
+segtree = segtree(arr)
+print(segtree)
 
-# update(segtree, 0, 1, len(arr))
-# print(segtree)
+update(segtree, 0, 1, len(arr))
+print(segtree)
 
-# print(partial_sum(segtree, 0, 1, len(arr)))
+print(partial_sum(segtree, 0, 1, len(arr)))

@@ -1,4 +1,3 @@
-# The extended Euclidean algorithm
 # Returns the gcd of two integers and the solutions
 def EEA(a, b):
     if a == 0:

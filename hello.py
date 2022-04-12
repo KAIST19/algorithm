@@ -1,55 +1,54 @@
-class Node(object):
-    def __init__(self, key, data=None):
-        self.key = key
-        self.data = data
-        self.children = {}
+def segtree(arr):
+    n = len(arr)
+    tree = [0] * (4 * n)
+    for i in range(n):
+        update(tree, i + 1, arr[i], n)
+    return tree
 
 
-class Trie:
-    def __init__(self):
-        self.head = Node(None)
-    
-    def insert(self, string):
-        """
-        insert the string to the trie
-        """
-        current_node = self.head
+def update(tree, i, x, n):
+    """
+    add x to i-th element
+    i: int
+        1) 0 <= i < n
+    x: int/double
+        1) x is added to i-th element
+    n: int
+        1) size of arr
+    """
+    i += n
+    tree[i] += x
+    while i > 0:
+        tree[i] += x
+        i //= 2
 
-        for char in string:
-            if char not in current_node.children:
-                current_node.children[char] = Node(char)
-            current_node = current_node.children[char]
-        current_node.data = string
-    
-    def search(self, string):
-        """
-        string: string to search in the trie
-        
-        returns True if there is/False otherwise
-        """
-        current_node = self.head
 
-        for char in string:
-            if char in current_node.children:
-                current_node = current_node.children[char]
-            else:
-                return False
-        
-        if current_node.data:
-            return True
-        else:
-            return False
-    
+def partial_sum(tree, i, j, n):
+    """
+    partial sum of [i, j]
+    0 <= i <= j < n
+    """
+    i += n + 1
+    j += n + 1
+    res = 0
+    while i <= j:
+        if i % 2 == 0:
+            res += tree[i]
+            i += 1
+        if j % 2 == 1:
+            res += tree[j]
+            j -= 1
+        i //= 2
+        j //= 2
+    return res
+
 
 # Test
-n, m = map(int, input().split())
-trie = Trie()
-for _ in range(n):
-    trie.insert(input().rstrip())
+arr = [1, 2, 3, 4, 5]
+segtree = segtree(arr)
+print(segtree)
 
-cnt = 0
-for _ in range(m):
-    if trie.search(input().rstrip()):
-        cnt += 1
+update(segtree, 0, 1, len(arr))
+print(segtree)
 
-print(cnt)
+print(partial_sum(segtree, 0, 1, len(arr)))
