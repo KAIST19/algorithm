@@ -1,5 +1,7 @@
-# Generate the Longest Proper Prefix list (aka LPS)
 def LPS_generator(pattern):
+    """
+    Generate the LPS array
+    """
     l_pattern = len(pattern)
     LPS = [0] * l_pattern
     i = 1
@@ -18,8 +20,6 @@ def LPS_generator(pattern):
     return LPS
 
 
-#  KMP: find the "pattern" in the "passage"
-#  Both should be string
 def KMP(pattern, passage):
     LPS = LPS_generator(pattern)
     i = 0

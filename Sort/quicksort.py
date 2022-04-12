@@ -12,6 +12,8 @@ def quicksort(arr):
     """
     arr: list
     """
+
+    # while going through all the elements (j), if it's smaller than the pivot, send it to the left.
     def partition(arr, left, right):
         x = arr[right]
         i = left - 1

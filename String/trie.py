@@ -1,7 +1,7 @@
-class Node(object):
+class Node():
     def __init__(self, key, data=None):
-        self.key = key
-        self.data = data
+        self.key = key # the character
+        self.data = data # the whole string
         self.children = {}
 
 

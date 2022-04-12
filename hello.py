@@ -1,54 +1,38 @@
-def segtree(arr):
-    n = len(arr)
-    tree = [0] * (4 * n)
-    for i in range(n):
-        update(tree, i + 1, arr[i], n)
-    return tree
+from itertools import permutations
 
 
-def update(tree, i, x, n):
+def quicksort(arr, tuple_series):
     """
-    add x to i-th element
-    i: int
-        1) 0 <= i < n
-    x: int/double
-        1) x is added to i-th element
-    n: int
-        1) size of arr
+    arr: list
     """
-    i += n
-    tree[i] += x
-    while i > 0:
-        tree[i] += x
-        i //= 2
+    def partition(arr, left, right):
+        x = arr[right]
+        i = left - 1
 
-
-def partial_sum(tree, i, j, n):
-    """
-    partial sum of [i, j]
-    0 <= i <= j < n
-    """
-    i += n + 1
-    j += n + 1
-    res = 0
-    while i <= j:
-        if i % 2 == 0:
-            res += tree[i]
-            i += 1
-        if j % 2 == 1:
-            res += tree[j]
-            j -= 1
-        i //= 2
-        j //= 2
-    return res
-
+        for j in range(left, right):
+            tuple_series.append((j + 1, right + 1, arr[j] <= x))
+            if arr[j] <= x:
+                i += 1
+                arr[i], arr[j] = arr[j], arr[i]
+        arr[i+1], arr[right] = arr[right], arr[i+1]
+        return i + 1
+    
+    def sort(left, right):
+        if right <= left:
+            return
+        
+        mid = partition(arr, left, right)
+        sort(left, mid - 1)
+        sort(mid, right)
+    
+    sort(0, len(arr) - 1)
 
 # Test
-arr = [1, 2, 3, 4, 5]
-segtree = segtree(arr)
-print(segtree)
 
-update(segtree, 0, 1, len(arr))
-print(segtree)
-
-print(partial_sum(segtree, 0, 1, len(arr)))
+for a, b, c, d in permutations([1, 2, 3, 4], 4):
+    arr = [a, b, c, d]
+    tuple_series = []
+    quicksort(arr.copy(), tuple_series)
+    if tuple_series[0] == (1, 4, False) and tuple_series[1] == (2, 4, False) and tuple_series[2] == (3, 4, False) and \
+        tuple_series[4] == (2, 4, False):
+        print(tuple_series, arr)
