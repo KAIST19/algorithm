@@ -1,13 +1,13 @@
-def LPS_generator(pattern):
+def fail_function(p):
     """
     Generate the LPS array
     """
-    l_pattern = len(pattern)
+    l_pattern = len(p)
     LPS = [0] * l_pattern
     i = 1
     length = 0
     while i < l_pattern:
-        if pattern[i] == pattern[length]:
+        if p[i] == p[length]:
             length += 1
             LPS[i] = length
             i += 1
@@ -20,14 +20,19 @@ def LPS_generator(pattern):
     return LPS
 
 
-def KMP(pattern, passage):
-    LPS = LPS_generator(pattern)
+def KMP(s, p):
+    """
+    returns the list of indices where the pattern p is found in the string s
+    beginning from 0
+    """
+    LPS = fail_function(p)
     i = 0
     j = 0
-    l_passage = len(passage)
-    l_pattern = len(pattern)
+    l_passage = len(s)
+    l_pattern = len(p)
+    ret = []
     while i < l_passage:
-        if passage[i] == pattern[j]:
+        if s[i] == p[j]:
             i += 1
             j += 1
         else:
@@ -36,5 +41,8 @@ def KMP(pattern, passage):
             else:
                 j = LPS[j - 1]
         if j == l_pattern:
-            yield i - j + 1 #  The index of the word
+            ret.append(i - j)
             j = LPS[j - 1]
+    return ret
+
+print(KMP("Hello, my name is name", "name"))

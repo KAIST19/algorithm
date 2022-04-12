@@ -1,39 +1,49 @@
-def Rabin_Karp(s, p):
+def find_root(parent, i):
     """
-    s: string
-    p: pattern
+    parent: list
+    i: int
+    """
+    if parent[i] == i:
+        return i
+    parent[i] = find_root(parent, parent[i])
+    return parent[i]
 
-    returns the list of indices where p is found in s
-    """
-    if len(p) > len(s):
-        return -1
-    if len(p) == 0:
-        return 0
-    if len(p) == 1:
-        return s.find(p)
-    # preprocessing
-    p_hash = 0
-    s_hash = 0
-    for i in range(len(p)):
-        p_hash = (p_hash * 256 + ord(p[i])) % (10 ** 9 + 7)
-        s_hash = (s_hash * 256 + ord(s[i])) % (10 ** 9 + 7)
-    
-    ret = []
-    # search
-    for i in range(len(s) - len(p) + 1):
-        if p_hash == s_hash:
-            if p == s[i:i + len(p)]:
-                ret.append(i)
-        if i < len(s) - len(p):
-            s_hash = (s_hash - ord(s[i]) * (256 ** (len(p) - 1))) * 256 + ord(s[i + len(p)])
-            s_hash = s_hash % (10 ** 9 + 7)
-    return ret
+
+def union(parent, a, b):
+    a = find_root(parent, a)
+    b = find_root(parent, b)
+    if a < b:
+        parent[b] = a
+    else:
+        parent[a] = b
 
 
 # Test
-s = input().rstrip()
-p = input().rstrip()
-ret = Rabin_Karp(s, p)
-print(len(ret))
-for i in ret:
-    print(i + 1, end=" ")
+n, q = map(int, input().split())
+parent = [0 for _ in range(n + 1)]
+parent[1] = 1
+for i in range(2, n + 1):
+    parent[i] = int(input())
+
+queries = []
+for _ in range(n - 1 + q):
+    queries.append(tuple(map(int, input().split())))
+
+parents = [i for i in range(n + 1)]
+ret_stack = []
+
+for _ in range(n - 1 + q):
+    pop = queries.pop()
+    if pop[0] == 0:
+        union(parents, pop[1], parent[pop[1]])
+    else:
+        if find_root(parents, pop[1]) == find_root(parents, pop[2]):
+            ret_stack.append(True)
+        else:
+            ret_stack.append(False)
+
+for _ in range(q):
+    if ret_stack.pop():
+        print("YES")
+    else:
+        print("NO")
