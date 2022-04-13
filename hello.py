@@ -1,49 +1,103 @@
-def find_root(parent, i):
+def segtree_min(arr):
+    n = len(arr)
+    tree = [float('inf')] * (2 * n)
+    for i in range(n):
+        update_min(tree, i, arr[i], n)
+    return tree
+
+
+def segtree_partial_sum(arr):
+    n = len(arr)
+    tree = [0] * (2 * n)
+    for i in range(n):
+        update_partial_sum(tree, i, arr[i], n)
+    return tree
+
+
+def update_min(tree, i, x, n):
     """
-    parent: list
+    add x to i-th element
     i: int
+        1) 0 <= i < n
+    x: int/double
+        1) change the value to x
+    n: int
+        1) size of arr
     """
-    if parent[i] == i:
-        return i
-    parent[i] = find_root(parent, parent[i])
-    return parent[i]
+    i += n
+    tree[i] = x
+    while i > 0:
+        i //= 2
+        tree[i] = min(tree[i * 2], tree[i * 2 + 1])
 
 
-def union(parent, a, b):
-    a = find_root(parent, a)
-    b = find_root(parent, b)
-    if a < b:
-        parent[b] = a
-    else:
-        parent[a] = b
+def update_partial_sum(tree, i, x, n):
+    """
+    add x to i-th element
+    i: int
+        1) 0 <= i < n
+    x: int/double
+        1) x is added to i-th element
+    n: int
+        1) size of arr
+    """
+    i += n
+    tree[i] += x
+    while i > 0:
+        i //= 2
+        tree[i] += x
 
 
-# Test
-n, q = map(int, input().split())
-parent = [0 for _ in range(n + 1)]
-parent[1] = 1
-for i in range(2, n + 1):
-    parent[i] = int(input())
+def minimum(tree, i, j, n):
+    """
+    minimum in [i, j]
+    0 <= i <= j < n
+    """
+    i += n
+    j += n
+    ret = float('inf')
+    while i <= j:
+        if i % 2 == 1:
+            ret = min(ret, tree[i])
+            i += 1
+        if j % 2 == 0:
+            ret = min(ret, tree[j])
+            j -= 1
+        i //= 2
+        j //= 2
+    return ret
 
-queries = []
-for _ in range(n - 1 + q):
-    queries.append(tuple(map(int, input().split())))
 
-parents = [i for i in range(n + 1)]
-ret_stack = []
+def partial_sum(tree, i, j, n):
+    """
+    partial sum of [i, j]
+    0 <= i <= j < n
+    """
+    i += n
+    j += n
+    ret = 0
+    while i <= j:
+        if i % 2 == 1:
+            ret += tree[i]
+            i += 1
+        if j % 2 == 0:
+            ret += tree[j]
+            j -= 1
+        i //= 2
+        j //= 2
+    return ret
 
-for _ in range(n - 1 + q):
-    pop = queries.pop()
-    if pop[0] == 0:
-        union(parents, pop[1], parent[pop[1]])
-    else:
-        if find_root(parents, pop[1]) == find_root(parents, pop[2]):
-            ret_stack.append(True)
-        else:
-            ret_stack.append(False)
 
-for _ in range(q):
-    if ret_stack.pop():
-        print("YES")
-    else:
-        print("NO")
+import sys
+input = sys.stdin.readline
+
+n = int(input())
+arr = list(map(int, input().split()))
+min_tree = segtree_min(arr)
+partial_sum_tree = segtree_partial_sum(arr)
+
+ret = 0
+for i in range(n):
+    for j in range(i, n):
+        ret = max(ret, minimum(min_tree, i, j, n) * partial_sum(partial_sum_tree, i, j, n))
+print(ret)
