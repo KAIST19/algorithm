@@ -1,30 +1,29 @@
-#  attempt to match n to m
-#  returns True if
-def dfs(n, visited, to_this):
-    if visited[n] == 1:
+def bipartite_matching(n, m, graph):
+    """
+    n: int
+        1) number of nodes in the domain
+    m: int
+        2) number of nodes in the range
+    graph: list of list containing which element is to connected to which
+
+    returns
+    ret: a list where ret[i] is the index of the element in the domain \
+        that chose i-th element 
+    """
+    def dfs(i):
+        if visited[i]:
+            return False
+        visited[i] = True
+        for choice in graph[i]:
+            if ret[choice] == -1 or dfs(ret[choice]):
+                ret[choice] = i
+                return True
         return False
-    visited[n] = True
-    for i in l[n]:
-        if to_this[i] == 0 or dfs(to_this[i]):
-            to_this[i] = n
-            return True
-    return False
 
+    ret = [-1] * m
 
-def Bipartite_Matching():
-    #  n: # of domain
-    #  m: # of codomain
-    n, m = map(int, input().split())
-    # ith element of l contains probable tasks
-    l = [[], ]
-    #  t[x] = y: x matched to y
-    to_this = [0] * (m + 1)
-    #  tasks for each n
-    for _ in range(n):
-        l.append([int(i) for i in input().split()][1:])
+    for i in range(n):
+        visited = [False] * n
+        dfs(i)
 
-    # for each i:
-    for i in range(1, n + 1):
-        visited = [0] * (n + 1)
-        dfs(i, visited, to_this)
-    return to_this[1:]
+    return ret

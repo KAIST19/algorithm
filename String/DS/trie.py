@@ -73,5 +73,7 @@ class Trie:
 # Test
 trie = Trie()
 trie.insert("Hello")
+trie.insert("Germany")
 print(trie.search("Hello"))
-print(trie.starts_with("H"))
+print(trie.starts_with("R"))
+print(trie.starts_with("G"))
