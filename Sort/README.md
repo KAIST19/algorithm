@@ -1,6 +1,8 @@
 # Sorting
-- [Bubble Sort](#Bubble-Sort)
-- [Selection Sort](#Selection-Sort)
+| sorting | time complexity | space complexity | stability |
+| --- | --- | --- | --- |
+| [Bubble Sort](#Bubble-Sort) |
+| [Selection Sort](#Selection-Sort)
 ## Bubble Sort
 
 Bubble sort is a simple sorting algorithm that works by repeatedly swapping adjacent elements if they are in the wrong order.
