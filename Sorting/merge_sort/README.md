@@ -37,20 +37,9 @@ def merge_sort(arr):
 - arr: the array to be sorted
 
 ## How it works
-This code breaks down into two smaller pieces:
-
-### sort
-```python
-def sort(low, high):
-    if high - low < 2:
-        return
-
-    # divide and conquer
-    mid = (low + high) // 2
-    sort(low, mid)
-    sort(mid, high)
-    merge(low, mid, high)
-```
+This code breaks down into two parts: merge, sort
+- merge: merge the two sorted arrays into one sorted array
+- sort: divide the array into two parts and sort them recursively
 
 ### merge
 ```python
@@ -76,3 +65,17 @@ def merge(low, mid, high):
         h += 1
     arr[low:high] = temp
 ```
+
+### sort
+```python
+def sort(low, high):
+    if high - low < 2:
+        return
+
+    # divide and conquer
+    mid = (low + high) // 2
+    sort(low, mid)
+    sort(mid, high)
+    merge(low, mid, high)
+```
+
