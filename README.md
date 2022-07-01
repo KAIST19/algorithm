@@ -2,5 +2,5 @@
 
 - [Math](Math)
 - [Data Structure](DS)
-- [Sort](Sort)
+- [Sorting](Sorting)
 - [String](String)

@@ -36,11 +36,6 @@ def merge_sort(arr):
 ## Arguments
 - arr: the array to be sorted
 
-## Time Complexity
-- Best case: O(n log n)
-- Average case: O(n log n)
-- Worst case: O(n log n)
-
 ## How it works
 This code breaks down into two smaller pieces:
 
