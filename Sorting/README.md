@@ -1,6 +1,6 @@
 # Sorting
 | Sorting | Best TC | Average TC| Worst TC| Space complexity |
-| --- | --- | --- | --- | --- |
+| :---: | :---: | :---: | :---: | :---: |
 | [Selection sort](selection_sort) | $Ω(n^2)$ | $θ(n^2)$ | $O(n^2)$ | $O(1)$ |
 | [Bubble sort](bubble_sort) | $Ω(n)$ | $θ(n^2)$ | $O(n^2)$ | $O(1)$ |
 | [Insertion sort](insertion_sort) | $Ω(n)$ | $θ(n^2)$ | $O(n^2)$ | $O(1)$ |
