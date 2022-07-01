@@ -1,0 +1,109 @@
+# KMP
+
+## Code
+
+```python
+def failure_function(p):
+    l_pattern = len(p)
+    table = [0] * l_pattern
+    i = 1
+    length = 0
+    while i < l_pattern:
+        if p[i] == p[length]:
+            length += 1
+            table[i] = length
+            i += 1
+        else:
+            if length > 0:
+                length = table[length - 1]
+            else:
+                table[i] = 0
+                i += 1
+    return table
+
+
+def KMP(s, p):
+    """
+    
+    """
+    table = failure_function(p)
+    i = 0
+    j = 0
+    l_passage = len(s)
+    l_pattern = len(p)
+    ret = []
+    while i < l_passage:
+        if s[i] == p[j]:
+            i += 1
+            j += 1
+        else:
+            if j == 0:
+                i += 1
+            else:
+                j = table[j - 1]
+        if j == l_pattern:
+            ret.append(i - j)
+            j = table[j - 1]
+    return ret
+```
+
+## Arguments & Return
+
+### failure function
+
+- p: pattern
+
+### KMP
+
+- s: string
+- p: pattern
+- rerturns ret: list of indices(starting from 0) where the pattern "p"s are found in the text s
+
+## How it works
+
+Firstly, get a table by implementing failure functon.
+
+```python
+def failure_function(p):
+    l_pattern = len(p)
+    table = [0] * l_pattern
+    i = 1
+    length = 0
+    while i < l_pattern:
+        if p[i] == p[length]:
+            length += 1
+            table[i] = length
+            i += 1
+        else:
+            if length > 0:
+                length = table[length - 1]
+            else:
+                table[i] = 0
+                i += 1
+    return table
+```
+
+Next, implement KMP.
+
+```python
+def KMP(s, p):
+    table = failure_function(p)
+    i = 0
+    j = 0
+    l_passage = len(s)
+    l_pattern = len(p)
+    ret = []
+    while i < l_passage:
+        if s[i] == p[j]:
+            i += 1
+            j += 1
+        else:
+            if j == 0:
+                i += 1
+            else:
+                j = table[j - 1]
+        if j == l_pattern:
+            ret.append(i - j)
+            j = table[j - 1]
+    return ret
+```
