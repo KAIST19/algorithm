@@ -1,3 +1,6 @@
 # Algorithm
 
-[Math](Math)
+- [Math](Math)
+- [Data Structure](DS)
+- [Sort](Sort)
+- [String](String)
