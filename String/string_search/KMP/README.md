@@ -23,16 +23,13 @@ def failure_function(p):
 
 
 def KMP(s, p):
-    """
-    
-    """
     table = failure_function(p)
     i = 0
     j = 0
-    l_passage = len(s)
+    l_text = len(s)
     l_pattern = len(p)
     ret = []
-    while i < l_passage:
+    while i < l_text:
         if s[i] == p[j]:
             i += 1
             j += 1
@@ -88,22 +85,35 @@ Next, implement KMP.
 ```python
 def KMP(s, p):
     table = failure_function(p)
-    i = 0
-    j = 0
-    l_passage = len(s)
+
+    i = 0 # goes through the text
+    j = 0 # goes through the pattern
+
+    l_text = len(s)
     l_pattern = len(p)
+
     ret = []
-    while i < l_passage:
+
+    while i < l_text:
+
+        # Matched
         if s[i] == p[j]:
             i += 1
             j += 1
+
+        #unmatched
         else:
+            # if j == 0, move i to the next character
             if j == 0:
                 i += 1
+            # otherwise, move j to the next character
             else:
                 j = table[j - 1]
+
+        # if j == l_pattern, then we found a match
         if j == l_pattern:
             ret.append(i - j)
             j = table[j - 1]
+
     return ret
 ```
