@@ -54,21 +54,25 @@ def KMP(s, p):
 
 ### KMP
 
-- s: string
+- s: text
 - p: pattern
-- rerturns ret: list of indices(starting from 0) where the pattern "p"s are found in the text s
+- rerturns ret: list of indices(starting from 0) where the pattern "p"s are found in the text
 
 ## How it works
 > [Visualization](https://cmps-people.ok.ubc.ca/ylucet/DS/KnuthMorrisPratt.html)
 
-Firstly, get a table by implementing failure functon.
+Prior to searching, the pattern is preprocessed by a function called "failure function" which returns a table.
 
-Here, `table[i]` = the longest prefix of `p[0:i+1]` that is also a suffix of `p[0:i+1]`. 
+The table is a list of integers. The definition is as follows.
 
-Example:
+`table[i]` = the longest prefix of `p[0:i+1]` that is also the suffix of `p[0:i+1]`.
+
+For example, the table of `AABAACAABAA` would be:
 | A | A | B | A | A | C | A | A | B | A | A |
 |---|---|---|---|---|---|---|---|---|---|---|
 | 0 | 1 | 0 | 1 | 2 | 0 | 1 | 2 | 3 | 4 | 5 |
+
+Here, table[4] would be 2 because `p[0:5] = AABAA` and the longest prefix (and suffix) would be `AA`.
 
 ```python
 def failure_function(p):
@@ -78,13 +82,13 @@ def failure_function(p):
     length = 0
 
     while i < len_p:
-        # matched
+        # match
         if p[i] == p[length]:
             length += 1
             table[i] = length
             i += 1
 
-        # unmatched
+        # mismatch
         else:
             # if length > 0, then we can set length to table[length - 1] since the longest prefix of p[0:length] is also a suffix of p[0:length]
             if length > 0:
@@ -101,8 +105,8 @@ Next, implement KMP. It uses the same algorithm as the failure function.
 def KMP(s, p):
     table = failure_function(p)
 
-    i = 0 # goes through the text
-    length = 0 # goes through the pattern
+    i = 0 # i-th letter in s is compared.
+    length = 0 # length-th letter in p is compared.
 
     len_s = len(s)
     len_p = len(p)
@@ -110,13 +114,12 @@ def KMP(s, p):
     ret = []
 
     while i < len_s:
-
-        # matched
+        # match
         if s[i] == p[length]:
             i += 1
             length += 1
 
-        # unmatched
+        # mismatch
         else:
             # if length == 0, move i to the next character
             if length == 0:
@@ -133,19 +136,35 @@ def KMP(s, p):
     return ret
 ```
 
-The key idea is that even if the letter from the text doesn't match the letter from the pattern, we can still take advantage of the fact that **the length - 1 letters on the left were matched**.
+What's different from the naive algorithm is that when a mismatch occurs, it takes the most efficient move, eliminating unnecessary steps. Let's see how it works.
 
-In the table below, the letters from each were unmatched(<span style="color:red">red letters</span>). But the length - 1 letters on the left were matched. (<span style="color:blue">blue letters</span>) 
-
-> :warning: if you can't see red/blue letters in the table below, the 5 matched letters on the left are blue, and the two letters that are unmatched (a and b) are red.
-
-| a | b | <span style="color:blue">a</span> | <span style="color:blue">b</span> | <span style="color:blue">c</span> | <span style="color:blue">a</span> | <span style="color:blue">b</span> | <span style="color:red">a</span> | b | b | a | a | b |
+The table belows depicts the process of finding `abcabb` from the text `ababcababbaab`. The asterisk * shows where the comparison occurs.
+|   |   |   |   |   |   |   | * |   |   |   |   |   |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|
+| a | b | <span style="color:blue">a</span> | <span style="color:blue">b</span> | <span style="color:blue">c</span> | <span style="color:blue">a</span> | <span style="color:blue">b</span> | <span style="color:red">a</span> | b | b | a | a | b |
 |   |   | <span style="color:blue">a</span> | <span style="color:blue">b</span> | <span style="color:blue">c</span> |<span style="color:blue">a</span> | <span style="color:blue">b</span> | <span style="color:red">b</span> |   |
 
-Since `table[5]` = 2, the pattern can be shifted as follows.
-| a | b | <span style="color:blue">a</span> | <span style="color:blue">b</span> | <span style="color:blue">c</span> | <span style="color:blue">a</span> | <span style="color:blue">b</span> | <span style="color:red">a</span> | b | b | a | a | b |
+Oops, there's a mismatch.
+
+The naive algorithm would just do `i += 1` and resume its comparison from the beginning of the pattern. This table below shows the next step in this case.
+
+|   |   |   | * |   |   |   |   |   |   |   |   |   |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|
+| a | b | a | b | c | a | b | a | b | b | a | a | b |
+|   |   |   | a | b | c |a | b | b |   |
+
+On the other hand, the KMP algorithm looks into the first 5 letters to see what can be skipped.
+
+|   |   |   |   |   |   |   | * |   |   |   |   |   |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| a | b | <span style="color:blue">a</span> | <span style="color:blue">b</span> | <span style="color:blue">c</span> | <span style="color:blue">A</span> | <span style="color:blue">B</span> | <span style="color:red">a</span> | b | b | a | a | b |
+|   |   | <span style="color:blue">A</span> | <span style="color:blue">B</span> | <span style="color:blue">c</span> |<span style="color:blue">a</span> | <span style="color:blue">b</span> | <span style="color:red">b</span> |   |
+
+**The key idea here is that a match won't occur until the `AB` of the pattern gets to the `AB` of the text.** The comparison inbetween can be skipped.
+
+|   |   |   |   |   |   |   | * |   |   |   |   |   |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| a | b | <span style="color:blue">a</span> | <span style="color:blue">b</span> | <span style="color:blue">c</span> | <span style="color:blue">a</span> | <span style="color:blue">b</span> | <span style="color:red">a</span> | b | b | a | a | b |
 |   |   |   |   |   | <span style="color:blue">a</span> | <span style="color:blue">b</span> | <span style="color:blue">c</span> |<span style="color:blue">a</span> | <span style="color:blue">b</span> | <span style="color:red">b</span> |   |
 
 and here's the code that does it.
@@ -153,3 +172,4 @@ and here's the code that does it.
 ```python
 length = table[length - 1]
 ```
+Note that `i` doesn't change.
