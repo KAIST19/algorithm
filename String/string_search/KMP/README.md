@@ -195,7 +195,9 @@ Consider implementing the KMP algorithm for `p == "ababcb"` and `s == "ababcb"`.
 
 (the 0s on the bottom represnet the values of `table`)
 
-Here, we're comparing the 1st letter of `s` with the 0th letter of `p`. It's a mismatch and `length == 0` so `table[1] = 0` and `i = 1 + 1`.
+Here, we're comparing the 1st letter of `s` with the 0th letter of `p`. It's a mismatch and `length == 0` so `table[1] = 0` and `i += 1`.
+
+> `i == 2` <br> `length == 0`
 
 |   |   | * |   |   |   |   |   |   |   |   |
 |---|---|---|---|---|---|---|---|---|---|---|
@@ -203,3 +205,35 @@ Here, we're comparing the 1st letter of `s` with the 0th letter of `p`. It's a m
 |   |   | a | b | a | b | c | b |   |   |   |
 | 0 | 0 | 0 | 0 | 0 | 0 |   |   |   |   |   |
 
+It's a match since `p[2] == p[0]`. Do `length += 1`, `table[2] = 1`, and `i += 1`.
+
+> `i == 3` <br> `length == 1`
+
+|   |   |   | * |   |   |   |   |   |   |   |
+|---|---|---|---|---|---|---|---|---|---|---|
+| a | b | a | b | c | b |   |   |   |   |   |
+|   |   | a | b | a | b | c | b |   |   |   |
+| 0 | 0 | 1 | 0 | 0 | 0 |   |   |   |   |   |
+
+Match again. Do `length += 1`, `table[3] = 2`, and `i += 1`. 
+
+> `i == 4` <br> `length == 2`
+
+|   |   |   |   | * |   |   |   |   |   |   |
+|---|---|---|---|---|---|---|---|---|---|---|
+| a | b | a | b | c | b |   |   |   |   |   |
+|   |   | a | b | a | b | c | b |   |   |   |
+| 0 | 0 | 1 | 2 | 0 | 0 |   |   |   |   |   |
+
+Mismatch. Since `length != 0`, `length = table[length - 1]`.
+
+> `i == 4` <br> `length == 0`
+
+|   |   |   |   | * |   |   |   |   |   |   |
+|---|---|---|---|---|---|---|---|---|---|---|
+| a | b | a | b | c | b |   |   |   |   |   |
+|   |   | a | b | a | b | c | b |   |   |   |
+| 0 | 0 | 1 | 2 | 0 | 0 |   |   |   |   |   |
+
+---
+Working on it...
