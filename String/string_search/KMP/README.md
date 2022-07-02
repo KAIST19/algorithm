@@ -137,6 +137,8 @@ The key idea is that even if the letter from the text doesn't match the letter f
 
 In the table below, the letters from each were unmatched(<span style="color:red">red letters</span>). But the length - 1 letters on the left were matched. (<span style="color:blue">blue letters</span>) 
 
+:warning: if you can't see 
+
 | a | b | <span style="color:blue">a</span> | <span style="color:blue">b</span> | <span style="color:blue">c</span> | <span style="color:blue">a</span> | <span style="color:blue">b</span> | <span style="color:red">a</span> | b | b | a | a | b |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|
 |   |   | <span style="color:blue">a</span> | <span style="color:blue">b</span> | <span style="color:blue">c</span> |<span style="color:blue">a</span> | <span style="color:blue">b</span> | <span style="color:red">b</span> |   |
