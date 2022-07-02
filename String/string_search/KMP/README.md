@@ -67,12 +67,14 @@ The table is a list of integers. The definition is as follows.
 
 `table[i]` = the longest prefix of `p[0:i+1]` that is also the suffix of `p[0:i+1]`.
 
-For example, the table of `AABAACAABAA` would be:
-| A | A | B | A | A | C | A | A | B | A | A |
-|---|---|---|---|---|---|---|---|---|---|---|
-| 0 | 1 | 0 | 1 | 2 | 0 | 1 | 2 | 3 | 4 | 5 |
+For instance, the table of `"abcabb"` would be:
+| a | b | c | a | b | b |
+|---|---|---|---|---|---|
+| 0 | 0 | 0 | 1 | 2 | 0 |
 
-Here, table[4] would be 2 because `p[0:5] = AABAA` and the longest prefix (and suffix) would be `AA`.
+Here, `table[4] == 2` because `p[0:5] = "abcab"` and the longest prefix (and suffix) is `"ab"`.
+
+Here's a failure function which takes a pattern `p` and returns `table`. I will give an explanation after going over the KMP algorithm.
 
 ```python
 def failure_function(p):
@@ -90,7 +92,6 @@ def failure_function(p):
 
         # mismatch
         else:
-            # if length > 0, then we can set length to table[length - 1] since the longest prefix of p[0:length] is also a suffix of p[0:length]
             if length > 0:
                 length = table[length - 1]
             else:
@@ -99,7 +100,7 @@ def failure_function(p):
     return table
 ```
 
-Next, implement KMP. It uses the same algorithm as the failure function.
+Here is a KMP function which takes a text `s` and a pattern `p` and returns a list of indices where the pattern `p`s are found in the text `s`.
 
 ```python
 def KMP(s, p):
@@ -136,9 +137,14 @@ def KMP(s, p):
     return ret
 ```
 
+```mermaid
+flowchart TD
+    A --> B
+```
+
 What's different from the naive algorithm is that when a mismatch occurs, it takes the most efficient move, eliminating unnecessary steps. Let's see how it works.
 
-The table belows depicts the process of finding `abcabb` from the text `ababcababbaab`. The asterisk * shows where the comparison occurs.
+The table belows depicts the process of finding `"abcabb"` from the text `"ababcababbaab"`. The asterisk * shows where the comparison occurs.
 |   |   |   |   |   |   |   | * |   |   |   |   |   |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|
 | a | b | <span style="color:blue">a</span> | <span style="color:blue">b</span> | <span style="color:blue">c</span> | <span style="color:blue">a</span> | <span style="color:blue">b</span> | <span style="color:red">a</span> | b | b | a | a | b |
@@ -146,7 +152,7 @@ The table belows depicts the process of finding `abcabb` from the text `ababcaba
 
 Oops, there's a mismatch.
 
-The naive algorithm would just do `i += 1` and resume its comparison from the beginning of the pattern. This table below shows the next step in this case.
+The naive algorithm would just do `i += 1` and resume its comparison from the beginning of the pattern. This table would be like this:
 
 |   |   |   | * |   |   |   |   |   |   |   |   |   |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|
@@ -160,16 +166,52 @@ On the other hand, the KMP algorithm looks into the first 5 letters to see what 
 | a | b | <span style="color:blue">a</span> | <span style="color:blue">b</span> | <span style="color:blue">c</span> | <span style="color:blue">A</span> | <span style="color:blue">B</span> | <span style="color:red">a</span> | b | b | a | a | b |
 |   |   | <span style="color:blue">A</span> | <span style="color:blue">B</span> | <span style="color:blue">c</span> |<span style="color:blue">a</span> | <span style="color:blue">b</span> | <span style="color:red">b</span> |   |
 
-**The key idea here is that a match won't occur until the `AB` of the pattern gets to the `AB` of the text.** The comparison inbetween can be skipped.
+**The key idea here is that a match won't occur until the `"AB"` of the pattern gets to the `"AB"` of the text.** The comparison inbetween can be skipped. Thus, the most efficient move is to move the pattern so that the `"AB"`s are put together.
 
 |   |   |   |   |   |   |   | * |   |   |   |   |   |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|
 | a | b | <span style="color:blue">a</span> | <span style="color:blue">b</span> | <span style="color:blue">c</span> | <span style="color:blue">a</span> | <span style="color:blue">b</span> | <span style="color:red">a</span> | b | b | a | a | b |
 |   |   |   |   |   | <span style="color:blue">a</span> | <span style="color:blue">b</span> | <span style="color:blue">c</span> |<span style="color:blue">a</span> | <span style="color:blue">b</span> | <span style="color:red">b</span> |   |
 
-and here's the code that does it.
+`length = table[length - 1]` would do the job. `i` doesn't change. It could be a little tricky to understand, but recall that `i`, `length` are pointers to the letter being compared.
+
+---
+
+Now, let's see how `failure_function` works.
 
 ```python
-length = table[length - 1]
+def failure_function(p):
+    len_p = len(p)
+    table = [0] * len_p
+    i = 1
+    length = 0
+
+    while i < len_p:
+        # match
+        if p[i] == p[length]:
+            length += 1
+            table[i] = length
+            i += 1
+
+        # mismatch
+        else:
+            if length > 0:
+                length = table[length - 1]
+            else:
+                table[i] = 0
+                i += 1
+    return table
 ```
-Note that `i` doesn't change.
+
+As you can see, it looks very similar to the KMP algorithm. We can use the same idea—skipping unnecessary steps steps—to get a table.
+
+Consider implementing the KMP algorithm for `p == "ababcb" and s == "ababab"`
+
+> `i == 1` <br> `length == 0`
+
+|   | * |   |   |   |   |   |   |   |   |   |
+|---|---|---|---|---|---|---|---|---|---|---|
+| a | b | a | b | c | b |   |   |   |   |   |
+|   | a | b | a | b | c | b |   |   |   |   |
+| 0 | 0 | 0 | 0 | 0 | 0 |   |   |   |   |   |
+
