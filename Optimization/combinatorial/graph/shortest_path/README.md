@@ -16,7 +16,7 @@ The shortest path problem is the problem of finding the path between two vertice
 
 | Algorithm | Time Complexity | Weight | Directed | Cyclic |
 | :---------: | :--------------: | :------: | :--------: | :------: |
-| [Floyd-WArshall](floyd_warshall) | $O(V^3)$ | R | O | no negative cycles |
+| [Floyd-Warshall](floyd_warshall) | $O(V^3)$ | R | O | no negative cycles |
 
 ## Negative cycles
 
