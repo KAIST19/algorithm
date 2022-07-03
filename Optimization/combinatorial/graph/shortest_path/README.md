@@ -7,7 +7,7 @@ The shortest path problem is the problem of finding the path between two vertice
 | Algorithm | Time Complexity | Weight | Directed | Cyclic |
 | :---------: | :--------------: | :------: | :--------: | :------: |
 | BFS | $O(V+E)$ | none | doesn't matter | detects cycles |
-| Dijkstra's | $O(V^2)$ | R<sub>+</sub> | doesn't matter | no negative cycles |
+| [Dijkstra's algorithm](dijkstra) | $O(V^2)$ | R<sub>+</sub> | doesn't matter | no negative cycles |
 | Topological Sort | $O(V+E)$ | | O | X |
 | Bellman-Ford | $O(VE)$ | R | O | detects cycle |
 
