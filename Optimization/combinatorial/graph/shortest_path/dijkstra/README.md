@@ -72,3 +72,5 @@ def dijkstra(v, e, start, graph):
 > The BFS algorithm guarantees that the current search has the shortest path. Revisiting the same node means it's gone through more nodes, which is why BFS never visits the same queue again.
 > 
 > On the other hand, there's no guarantee that the current search has the shortest path. A shorter path could be found for the same node when revisited through a different path. This is why the dijkstra's algorithm keeps searching until the queue is empty.
+
+:warning: No negative cycles should be in the graph. If there is, it will end up in an infinite loop, updating the minimum distance endlessly.
