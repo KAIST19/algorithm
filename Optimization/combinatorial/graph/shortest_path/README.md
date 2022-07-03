@@ -6,10 +6,15 @@ The shortest path problem is the problem of finding the path between two vertice
 
 | Algorithm | Time Complexity | Weight | Directed | Cyclic |
 | :---------: | :--------------: | :------: | :--------: | :------: |
-| BFS | $O(V+E)$ | none | X |  |
-| Dijkstra's | $O(VlogV+E)$ | R<sub>+</sub> | X | positive weight cycle |
+| BFS | $O(V+E)$ | none | doesn't matter | detects cycles |
+| Dijkstra's | $O(V^2)$ | R<sub>+</sub> | doesn't matter | no negative cycles |
 | Topological Sort | $O(V+E)$ | | O | X |
-| Bellman-Ford | $O(V+E)$ | R | O | |
+| Bellman-Ford | $O(VE)$ | R | O | detects cycle |
 
 
 ## All-pairs shortest paths
+
+| Algorithm | Time Complexity | Weight | Directed | Cyclic |
+| :---------: | :--------------: | :------: | :--------: | :------: |
+| Floyd-Warshall | $O(V^3)$ | R<sub>+</sub> | X | X |
+| Floyd-WArshall | $O(V^3)$ | R | O | no negative cycles |
